@@ -15,7 +15,7 @@ export function genOpenapiSpec(config: Config, includeSelfRef = false) {
 		info: {
 			version: config.version,
 			title: 'Misskey API',
-			'x-logo': { url: '/static-assets/api-doc.png' },
+//			'x-logo': { url: '/static-assets/api-doc.png' },
 		},
 
 		externalDocs: {
