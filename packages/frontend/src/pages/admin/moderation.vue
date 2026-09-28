@@ -35,12 +35,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</SearchMarker>
 
 					<SearchMarker :keywords="['remote', 'follow', 'reject']">
-						<MkSwitch v-model="enableRemoteSpamFollowingDetection">
+						<MkSwitch v-model="enableRemoteSpamFollowingDetection" @change="onChange_enableRemoteSpamFollowingDetection">
 							<template #label>
 								<SearchLabel>{{ i18n.ts._serverSettings.enableRemoteSpamFollowingDetection }}</SearchLabel>
 							</template>
 						</MkSwitch>
-						<MkInput v-if="enableRemoteSpamFollowingDetection" v-model="enableRemoteSpamFollowingDetection" type="number" />
 					</SearchMarker>
 
 					<SearchMarker :keywords="['ugc', 'content', 'visibility', 'visitor', 'guest']">
@@ -94,7 +93,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<div class="_gaps">
 								<MkTextarea v-model="sensitiveWords">
 									<template #caption>{{ i18n.ts.sensitiveWordsDescription }}<br>{{ i18n.ts.sensitiveWordsDescription2
-										}}</template>
+									}}</template>
 								</MkTextarea>
 								<MkButton primary @click="save_sensitiveWords">{{ i18n.ts.save }}</MkButton>
 							</div>
@@ -113,7 +112,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<div class="_gaps">
 								<MkTextarea v-model="prohibitedWords">
 									<template #caption>{{ i18n.ts.prohibitedWordsDescription }}<br>{{ i18n.ts.prohibitedWordsDescription2
-										}}</template>
+									}}</template>
 								</MkTextarea>
 								<MkButton primary @click="save_prohibitedWords">{{ i18n.ts.save }}</MkButton>
 							</div>
@@ -280,6 +279,14 @@ async function onChange_enableRegistration(value: boolean) {
 function onChange_emailRequiredForSignup(value: boolean) {
 	os.apiWithDialog('admin/update-meta', {
 		emailRequiredForSignup: value,
+	}).then(() => {
+		fetchInstance(true);
+	});
+}
+
+function onChange_enableRemoteSpamFollowingDetection(value: boolean) {
+	os.apiWithDialog('admin/update-meta', {
+		enableRemoteSpamFollowingDetection: value,
 	}).then(() => {
 		fetchInstance(true);
 	});
