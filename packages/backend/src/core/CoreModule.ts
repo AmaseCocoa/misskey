@@ -156,6 +156,7 @@ import { QueueService } from './QueueService.js';
 import { LoggerService } from './LoggerService.js';
 import { TelemetryService } from './telemetry/TelemetryService.js';
 import type { Provider } from '@nestjs/common';
+import { ApSpamCheckService } from './activitypub/ApSpamCheckService.js';
 
 //#region 文字列ベースでのinjection用(循環参照対応のため)
 const $LoggerService: Provider = { provide: 'LoggerService', useExisting: LoggerService };
@@ -449,6 +450,7 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		ApRendererService,
 		ApRequestService,
 		ApResolverService,
+		ApSpamCheckService,
 		Resolver,
 		JsonLdService,
 		RemoteLoggerService,
