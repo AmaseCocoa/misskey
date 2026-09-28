@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: AmaseCocoa
+ * SPDX-FileCopyrightText: syuilo and misskey-project
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 import { Injectable } from '@nestjs/common';
 import { IsNull } from 'typeorm';
 import type { MiRemoteUser } from '@/models/User.js';
