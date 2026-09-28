@@ -30,6 +30,8 @@ import type { MiRemoteUser } from '@/models/User.js';
 import { GlobalEventService } from '@/core/GlobalEventService.js';
 import { AbuseReportService } from '@/core/AbuseReportService.js';
 import { IdentifiableError } from '@/misc/identifiable-error.js';
+import { ModerationLogService } from '../ModerationLogService.js';
+import { SystemAccountService } from '../SystemAccountService.js';
 import { getApHrefNullable, getApId, getApIds, getApType, isAccept, isActor, isAdd, isAnnounce, isBlock, isCollection, isCollectionOrOrderedCollection, isCreate, isDelete, isFlag, isFollow, isLike, isMove, isPost, isReject, isRemove, isTombstone, isUndo, isUpdate, validActor, validPost } from './type.js';
 import { ApNoteService } from './models/ApNoteService.js';
 import { ApLoggerService } from './ApLoggerService.js';
@@ -38,6 +40,8 @@ import { ApResolverService } from './ApResolverService.js';
 import { ApAudienceService } from './ApAudienceService.js';
 import { ApPersonService } from './models/ApPersonService.js';
 import { ApQuestionService } from './models/ApQuestionService.js';
+import { ApRendererService } from './ApRendererService.js';
+import { ApSpamCheckService } from './ApSpamCheckService.js';
 import type { Resolver } from './ApResolverService.js';
 import type { IAccept, IAdd, IAnnounce, IBlock, ICreate, IDelete, IFlag, IFollow, ILike, IObject, IReject, IRemove, IUndo, IUpdate, IMove, IPost } from './type.js';
 
@@ -85,6 +89,10 @@ export class ApInboxService {
 		private apQuestionService: ApQuestionService,
 		private queueService: QueueService,
 		private globalEventService: GlobalEventService,
+		private apSpamCheckService: ApSpamCheckService,
+		private apRendererService: ApRendererService,
+		private moderationLogService: ModerationLogService,
+		private systemAccountService: SystemAccountService,
 	) {
 		this.logger = this.apLoggerService.logger;
 	}
@@ -186,6 +194,25 @@ export class ApInboxService {
 
 		if (followee.host != null) {
 			return 'skip: フォローしようとしているユーザーはローカルユーザーではありません';
+		}
+
+		const isSpamAccount = await this.apSpamCheckService.checkActor(actor);
+
+		if (isSpamAccount) {
+			const content = this.apRendererService.addContext(
+				this.apRendererService.renderReject(
+					this.apRendererService.renderFollow(actor, followee, activity.id),
+					followee,
+				),
+			);
+			this.queueService.deliver(followee, content, actor.inbox, false);
+			const systemActor = await this.systemAccountService.fetch('actor');
+			await this.moderationLogService.log(systemActor, 'rejectRemoteFollow', {
+				userId: actor.id,
+				userUsername: actor.username,
+				userHost: actor.host,
+			});
+			return 'ok: rejected';
 		}
 
 		// don't queue because the sender may attempt again when timeout

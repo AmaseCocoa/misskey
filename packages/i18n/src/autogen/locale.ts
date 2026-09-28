@@ -7032,6 +7032,10 @@ export interface Locale extends ILocale {
          * アクティビティを表示する
          */
         "showActivitiesForVisitor": string;
+        /**
+         * スパムの可能性があるリモートフォローを拒否する
+         */
+        "enableRemoteSpamFollowingDetection": string;
         "_userGeneratedContentsVisibilityForVisitor": {
             /**
              * 全て公開
@@ -11660,6 +11664,10 @@ export interface Locale extends ILocale {
          * プロキシアカウントの説明を更新
          */
         "updateProxyAccountDescription": string;
+        /**
+         * スパムの可能性があるリモートフォローを拒否
+         */
+        "rejectRemoteFollow": string;
     };
     "_fileViewer": {
         /**

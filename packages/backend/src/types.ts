@@ -135,6 +135,8 @@ export const moderationLogTypes = [
 	'deleteGalleryPost',
 	'deleteChatRoom',
 	'updateProxyAccountDescription',
+
+	'rejectRemoteFollow',
 ] as const;
 
 export type ModerationLogPayloads = {
@@ -401,6 +403,12 @@ export type ModerationLogPayloads = {
 	updateProxyAccountDescription: {
 		before: string | null;
 		after: string | null;
+	};
+	
+	rejectRemoteFollow: {
+		userId: string,
+		userUsername: string,
+		userHost: string
 	};
 };
 

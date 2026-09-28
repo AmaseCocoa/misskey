@@ -9574,6 +9574,7 @@ export interface operations {
                         remoteNotesCleaningExpiryDaysForEachNotes: number;
                         remoteNotesCleaningMaxProcessingDurationInMinutes: number;
                         showRoleBadgesOfRemoteUsers: boolean;
+                        enableRemoteSpamFollowingDetection: boolean;
                     };
                 };
             };
@@ -13094,6 +13095,7 @@ export interface operations {
                     remoteNotesCleaningExpiryDaysForEachNotes?: number;
                     remoteNotesCleaningMaxProcessingDurationInMinutes?: number;
                     showRoleBadgesOfRemoteUsers?: boolean;
+                    enableRemoteSpamFollowingDetection?: boolean;
                 };
             };
         };

@@ -4,153 +4,215 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader :tabs="headerTabs">
-	<div class="_spacer" style="--MI_SPACER-w: 700px; --MI_SPACER-min: 16px; --MI_SPACER-max: 32px;">
-		<SearchMarker path="/admin/moderation" :label="i18n.ts.moderation" :keywords="['moderation']" icon="ti ti-shield" :inlining="['serverRules']">
-			<div class="_gaps_m">
-				<SearchMarker :keywords="['open', 'registration']">
-					<MkSwitch :modelValue="enableRegistration" @update:modelValue="onChange_enableRegistration">
-						<template #label><SearchLabel>{{ i18n.ts._serverSettings.openRegistration }}</SearchLabel></template>
-						<template #caption>
-							<div><SearchText>{{ i18n.ts._serverSettings.thisSettingWillAutomaticallyOffWhenModeratorsInactive }}</SearchText></div>
-							<div><i class="ti ti-alert-triangle" style="color: var(--MI_THEME-warn);"></i> <SearchText>{{ i18n.ts._serverSettings.openRegistrationWarning }}</SearchText></div>
-						</template>
-					</MkSwitch>
-				</SearchMarker>
+	<PageWithHeader :tabs="headerTabs">
+		<div class="_spacer" style="--MI_SPACER-w: 700px; --MI_SPACER-min: 16px; --MI_SPACER-max: 32px;">
+			<SearchMarker path="/admin/moderation" :label="i18n.ts.moderation" :keywords="['moderation']" icon="ti ti-shield"
+				:inlining="['serverRules']">
+				<div class="_gaps_m">
+					<SearchMarker :keywords="['open', 'registration']">
+						<MkSwitch :modelValue="enableRegistration" @update:modelValue="onChange_enableRegistration">
+							<template #label>
+								<SearchLabel>{{ i18n.ts._serverSettings.openRegistration }}</SearchLabel>
+							</template>
+							<template #caption>
+								<div>
+									<SearchText>{{ i18n.ts._serverSettings.thisSettingWillAutomaticallyOffWhenModeratorsInactive }}
+									</SearchText>
+								</div>
+								<div><i class="ti ti-alert-triangle" style="color: var(--MI_THEME-warn);"></i>
+									<SearchText>{{ i18n.ts._serverSettings.openRegistrationWarning }}</SearchText>
+								</div>
+							</template>
+						</MkSwitch>
+					</SearchMarker>
 
-				<SearchMarker :keywords="['email', 'required', 'signup']">
-					<MkSwitch v-model="emailRequiredForSignup" @change="onChange_emailRequiredForSignup">
-						<template #label><SearchLabel>{{ i18n.ts.emailRequiredForSignup }}</SearchLabel> ({{ i18n.ts.recommended }})</template>
-					</MkSwitch>
-				</SearchMarker>
+					<SearchMarker :keywords="['email', 'required', 'signup']">
+						<MkSwitch v-model="emailRequiredForSignup" @change="onChange_emailRequiredForSignup">
+							<template #label>
+								<SearchLabel>{{ i18n.ts.emailRequiredForSignup }}</SearchLabel> ({{ i18n.ts.recommended }})
+							</template>
+						</MkSwitch>
+					</SearchMarker>
 
-				<SearchMarker :keywords="['ugc', 'content', 'visibility', 'visitor', 'guest']">
-					<MkSelect v-model="ugcVisibilityForVisitor" :items="ugcVisibilityForVisitorDef" @update:modelValue="onChange_ugcVisibilityForVisitor">
-						<template #label><SearchLabel>{{ i18n.ts._serverSettings.userGeneratedContentsVisibilityForVisitor }}</SearchLabel></template>
-						<template #caption>
-							<div><SearchText>{{ i18n.ts._serverSettings.userGeneratedContentsVisibilityForVisitor_description }}</SearchText></div>
-							<div><i class="ti ti-alert-triangle" style="color: var(--MI_THEME-warn);"></i> <SearchText>{{ i18n.ts._serverSettings.userGeneratedContentsVisibilityForVisitor_description2 }}</SearchText></div>
-						</template>
-					</MkSelect>
-				</SearchMarker>
+					<SearchMarker :keywords="['remote', 'follow', 'reject']">
+						<MkSwitch v-model="enableRemoteSpamFollowingDetection" @change="onChange_enableRemoteSpamFollowingDetection">
+							<template #label>
+								<SearchLabel>{{ i18n.ts._serverSettings.enableRemoteSpamFollowingDetection }}</SearchLabel>
+							</template>
+						</MkSwitch>
+					</SearchMarker>
 
-				<XServerRules/>
+					<SearchMarker :keywords="['ugc', 'content', 'visibility', 'visitor', 'guest']">
+						<MkSelect v-model="ugcVisibilityForVisitor" :items="ugcVisibilityForVisitorDef"
+							@update:modelValue="onChange_ugcVisibilityForVisitor">
+							<template #label>
+								<SearchLabel>{{ i18n.ts._serverSettings.userGeneratedContentsVisibilityForVisitor }}</SearchLabel>
+							</template>
+							<template #caption>
+								<div>
+									<SearchText>{{ i18n.ts._serverSettings.userGeneratedContentsVisibilityForVisitor_description }}
+									</SearchText>
+								</div>
+								<div><i class="ti ti-alert-triangle" style="color: var(--MI_THEME-warn);"></i>
+									<SearchText>{{ i18n.ts._serverSettings.userGeneratedContentsVisibilityForVisitor_description2 }}
+									</SearchText>
+								</div>
+							</template>
+						</MkSelect>
+					</SearchMarker>
 
-				<SearchMarker :keywords="['preserved', 'usernames']">
-					<MkFolder>
-						<template #icon><SearchIcon><i class="ti ti-lock-star"></i></SearchIcon></template>
-						<template #label><SearchLabel>{{ i18n.ts.preservedUsernames }}</SearchLabel></template>
+					<XServerRules />
 
-						<div class="_gaps">
-							<MkTextarea v-model="preservedUsernames">
-								<template #caption>{{ i18n.ts.preservedUsernamesDescription }}</template>
-							</MkTextarea>
-							<MkButton primary @click="save_preservedUsernames">{{ i18n.ts.save }}</MkButton>
-						</div>
-					</MkFolder>
-				</SearchMarker>
+					<SearchMarker :keywords="['preserved', 'usernames']">
+						<MkFolder>
+							<template #icon>
+								<SearchIcon><i class="ti ti-lock-star"></i></SearchIcon>
+							</template>
+							<template #label>
+								<SearchLabel>{{ i18n.ts.preservedUsernames }}</SearchLabel>
+							</template>
 
-				<SearchMarker :keywords="['sensitive', 'words']">
-					<MkFolder>
-						<template #icon><SearchIcon><i class="ti ti-message-exclamation"></i></SearchIcon></template>
-						<template #label><SearchLabel>{{ i18n.ts.sensitiveWords }}</SearchLabel></template>
+							<div class="_gaps">
+								<MkTextarea v-model="preservedUsernames">
+									<template #caption>{{ i18n.ts.preservedUsernamesDescription }}</template>
+								</MkTextarea>
+								<MkButton primary @click="save_preservedUsernames">{{ i18n.ts.save }}</MkButton>
+							</div>
+						</MkFolder>
+					</SearchMarker>
 
-						<div class="_gaps">
-							<MkTextarea v-model="sensitiveWords">
-								<template #caption>{{ i18n.ts.sensitiveWordsDescription }}<br>{{ i18n.ts.sensitiveWordsDescription2 }}</template>
-							</MkTextarea>
-							<MkButton primary @click="save_sensitiveWords">{{ i18n.ts.save }}</MkButton>
-						</div>
-					</MkFolder>
-				</SearchMarker>
+					<SearchMarker :keywords="['sensitive', 'words']">
+						<MkFolder>
+							<template #icon>
+								<SearchIcon><i class="ti ti-message-exclamation"></i></SearchIcon>
+							</template>
+							<template #label>
+								<SearchLabel>{{ i18n.ts.sensitiveWords }}</SearchLabel>
+							</template>
 
-				<SearchMarker :keywords="['prohibited', 'words']">
-					<MkFolder>
-						<template #icon><SearchIcon><i class="ti ti-message-x"></i></SearchIcon></template>
-						<template #label><SearchLabel>{{ i18n.ts.prohibitedWords }}</SearchLabel></template>
+							<div class="_gaps">
+								<MkTextarea v-model="sensitiveWords">
+									<template #caption>{{ i18n.ts.sensitiveWordsDescription }}<br>{{ i18n.ts.sensitiveWordsDescription2
+									}}</template>
+								</MkTextarea>
+								<MkButton primary @click="save_sensitiveWords">{{ i18n.ts.save }}</MkButton>
+							</div>
+						</MkFolder>
+					</SearchMarker>
 
-						<div class="_gaps">
-							<MkTextarea v-model="prohibitedWords">
-								<template #caption>{{ i18n.ts.prohibitedWordsDescription }}<br>{{ i18n.ts.prohibitedWordsDescription2 }}</template>
-							</MkTextarea>
-							<MkButton primary @click="save_prohibitedWords">{{ i18n.ts.save }}</MkButton>
-						</div>
-					</MkFolder>
-				</SearchMarker>
+					<SearchMarker :keywords="['prohibited', 'words']">
+						<MkFolder>
+							<template #icon>
+								<SearchIcon><i class="ti ti-message-x"></i></SearchIcon>
+							</template>
+							<template #label>
+								<SearchLabel>{{ i18n.ts.prohibitedWords }}</SearchLabel>
+							</template>
 
-				<SearchMarker :keywords="['prohibited', 'name', 'user']">
-					<MkFolder>
-						<template #icon><SearchIcon><i class="ti ti-user-x"></i></SearchIcon></template>
-						<template #label><SearchLabel>{{ i18n.ts.prohibitedWordsForNameOfUser }}</SearchLabel></template>
+							<div class="_gaps">
+								<MkTextarea v-model="prohibitedWords">
+									<template #caption>{{ i18n.ts.prohibitedWordsDescription }}<br>{{ i18n.ts.prohibitedWordsDescription2
+									}}</template>
+								</MkTextarea>
+								<MkButton primary @click="save_prohibitedWords">{{ i18n.ts.save }}</MkButton>
+							</div>
+						</MkFolder>
+					</SearchMarker>
 
-						<div class="_gaps">
-							<MkTextarea v-model="prohibitedWordsForNameOfUser">
-								<template #caption>{{ i18n.ts.prohibitedWordsForNameOfUserDescription }}<br>{{ i18n.ts.prohibitedWordsDescription2 }}</template>
-							</MkTextarea>
-							<MkButton primary @click="save_prohibitedWordsForNameOfUser">{{ i18n.ts.save }}</MkButton>
-						</div>
-					</MkFolder>
-				</SearchMarker>
+					<SearchMarker :keywords="['prohibited', 'name', 'user']">
+						<MkFolder>
+							<template #icon>
+								<SearchIcon><i class="ti ti-user-x"></i></SearchIcon>
+							</template>
+							<template #label>
+								<SearchLabel>{{ i18n.ts.prohibitedWordsForNameOfUser }}</SearchLabel>
+							</template>
 
-				<SearchMarker :keywords="['hidden', 'tags', 'hashtags']">
-					<MkFolder>
-						<template #icon><SearchIcon><i class="ti ti-eye-off"></i></SearchIcon></template>
-						<template #label><SearchLabel>{{ i18n.ts.hiddenTags }}</SearchLabel></template>
+							<div class="_gaps">
+								<MkTextarea v-model="prohibitedWordsForNameOfUser">
+									<template #caption>{{ i18n.ts.prohibitedWordsForNameOfUserDescription }}<br>{{
+										i18n.ts.prohibitedWordsDescription2 }}</template>
+								</MkTextarea>
+								<MkButton primary @click="save_prohibitedWordsForNameOfUser">{{ i18n.ts.save }}</MkButton>
+							</div>
+						</MkFolder>
+					</SearchMarker>
 
-						<div class="_gaps">
-							<MkTextarea v-model="hiddenTags">
-								<template #caption>{{ i18n.ts.hiddenTagsDescription }}</template>
-							</MkTextarea>
-							<MkButton primary @click="save_hiddenTags">{{ i18n.ts.save }}</MkButton>
-						</div>
-					</MkFolder>
-				</SearchMarker>
+					<SearchMarker :keywords="['hidden', 'tags', 'hashtags']">
+						<MkFolder>
+							<template #icon>
+								<SearchIcon><i class="ti ti-eye-off"></i></SearchIcon>
+							</template>
+							<template #label>
+								<SearchLabel>{{ i18n.ts.hiddenTags }}</SearchLabel>
+							</template>
 
-				<SearchMarker :keywords="['silenced', 'servers', 'hosts']">
-					<MkFolder>
-						<template #icon><SearchIcon><i class="ti ti-eye-off"></i></SearchIcon></template>
-						<template #label><SearchLabel>{{ i18n.ts.silencedInstances }}</SearchLabel></template>
+							<div class="_gaps">
+								<MkTextarea v-model="hiddenTags">
+									<template #caption>{{ i18n.ts.hiddenTagsDescription }}</template>
+								</MkTextarea>
+								<MkButton primary @click="save_hiddenTags">{{ i18n.ts.save }}</MkButton>
+							</div>
+						</MkFolder>
+					</SearchMarker>
 
-						<div class="_gaps">
-							<MkTextarea v-model="silencedHosts">
-								<template #caption>{{ i18n.ts.silencedInstancesDescription }}</template>
-							</MkTextarea>
-							<MkButton primary @click="save_silencedHosts">{{ i18n.ts.save }}</MkButton>
-						</div>
-					</MkFolder>
-				</SearchMarker>
+					<SearchMarker :keywords="['silenced', 'servers', 'hosts']">
+						<MkFolder>
+							<template #icon>
+								<SearchIcon><i class="ti ti-eye-off"></i></SearchIcon>
+							</template>
+							<template #label>
+								<SearchLabel>{{ i18n.ts.silencedInstances }}</SearchLabel>
+							</template>
 
-				<SearchMarker :keywords="['media', 'silenced', 'servers', 'hosts']">
-					<MkFolder>
-						<template #icon><SearchIcon><i class="ti ti-eye-off"></i></SearchIcon></template>
-						<template #label><SearchLabel>{{ i18n.ts.mediaSilencedInstances }}</SearchLabel></template>
+							<div class="_gaps">
+								<MkTextarea v-model="silencedHosts">
+									<template #caption>{{ i18n.ts.silencedInstancesDescription }}</template>
+								</MkTextarea>
+								<MkButton primary @click="save_silencedHosts">{{ i18n.ts.save }}</MkButton>
+							</div>
+						</MkFolder>
+					</SearchMarker>
 
-						<div class="_gaps">
-							<MkTextarea v-model="mediaSilencedHosts">
-								<template #caption>{{ i18n.ts.mediaSilencedInstancesDescription }}</template>
-							</MkTextarea>
-							<MkButton primary @click="save_mediaSilencedHosts">{{ i18n.ts.save }}</MkButton>
-						</div>
-					</MkFolder>
-				</SearchMarker>
+					<SearchMarker :keywords="['media', 'silenced', 'servers', 'hosts']">
+						<MkFolder>
+							<template #icon>
+								<SearchIcon><i class="ti ti-eye-off"></i></SearchIcon>
+							</template>
+							<template #label>
+								<SearchLabel>{{ i18n.ts.mediaSilencedInstances }}</SearchLabel>
+							</template>
 
-				<SearchMarker :keywords="['blocked', 'servers', 'hosts']">
-					<MkFolder>
-						<template #icon><SearchIcon><i class="ti ti-ban"></i></SearchIcon></template>
-						<template #label><SearchLabel>{{ i18n.ts.blockedInstances }}</SearchLabel></template>
+							<div class="_gaps">
+								<MkTextarea v-model="mediaSilencedHosts">
+									<template #caption>{{ i18n.ts.mediaSilencedInstancesDescription }}</template>
+								</MkTextarea>
+								<MkButton primary @click="save_mediaSilencedHosts">{{ i18n.ts.save }}</MkButton>
+							</div>
+						</MkFolder>
+					</SearchMarker>
 
-						<div class="_gaps">
-							<MkTextarea v-model="blockedHosts">
-								<template #caption>{{ i18n.ts.blockedInstancesDescription }}</template>
-							</MkTextarea>
-							<MkButton primary @click="save_blockedHosts">{{ i18n.ts.save }}</MkButton>
-						</div>
-					</MkFolder>
-				</SearchMarker>
-			</div>
-		</SearchMarker>
-	</div>
-</PageWithHeader>
+					<SearchMarker :keywords="['blocked', 'servers', 'hosts']">
+						<MkFolder>
+							<template #icon>
+								<SearchIcon><i class="ti ti-ban"></i></SearchIcon>
+							</template>
+							<template #label>
+								<SearchLabel>{{ i18n.ts.blockedInstances }}</SearchLabel>
+							</template>
+
+							<div class="_gaps">
+								<MkTextarea v-model="blockedHosts">
+									<template #caption>{{ i18n.ts.blockedInstancesDescription }}</template>
+								</MkTextarea>
+								<MkButton primary @click="save_blockedHosts">{{ i18n.ts.save }}</MkButton>
+							</div>
+						</MkFolder>
+					</SearchMarker>
+				</div>
+			</SearchMarker>
+		</div>
+	</PageWithHeader>
 </template>
 
 <script lang="ts" setup>
@@ -173,6 +235,7 @@ import MkSelect from '@/components/MkSelect.vue';
 
 const meta = await misskeyApi('admin/meta');
 
+const enableRemoteSpamFollowingDetection = ref(meta.enableRemoteSpamFollowingDetection);
 const enableRegistration = ref(!meta.disableRegistration);
 const emailRequiredForSignup = ref(meta.emailRequiredForSignup);
 const {
@@ -216,6 +279,14 @@ async function onChange_enableRegistration(value: boolean) {
 function onChange_emailRequiredForSignup(value: boolean) {
 	os.apiWithDialog('admin/update-meta', {
 		emailRequiredForSignup: value,
+	}).then(() => {
+		fetchInstance(true);
+	});
+}
+
+function onChange_enableRemoteSpamFollowingDetection(value: boolean) {
+	os.apiWithDialog('admin/update-meta', {
+		enableRemoteSpamFollowingDetection: value,
 	}).then(() => {
 		fetchInstance(true);
 	});

@@ -228,6 +228,7 @@ export const paramDef = {
 		remoteNotesCleaningExpiryDaysForEachNotes: { type: 'number' },
 		remoteNotesCleaningMaxProcessingDurationInMinutes: { type: 'number' },
 		showRoleBadgesOfRemoteUsers: { type: 'boolean' },
+		enableRemoteSpamFollowingDetection: { type: 'boolean' },
 	},
 	required: [],
 } as const;
@@ -790,6 +791,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (ps.showRoleBadgesOfRemoteUsers !== undefined) {
 				set.showRoleBadgesOfRemoteUsers = ps.showRoleBadgesOfRemoteUsers;
+			}
+
+			if (ps.enableRemoteSpamFollowingDetection !== undefined) {
+				set.enableRemoteSpamFollowingDetection = ps.enableRemoteSpamFollowingDetection;
 			}
 
 			const before = await this.metaService.fetch(true);

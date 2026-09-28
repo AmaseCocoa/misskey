@@ -1793,6 +1793,7 @@ _serverSettings:
   entrancePageStyle: "エントランスページのスタイル"
   showTimelineForVisitor: "タイムラインを表示する"
   showActivitiesForVisitor: "アクティビティを表示する"
+  enableRemoteSpamFollowingDetection: "スパムの可能性があるリモートフォローを拒否する"
 
   _userGeneratedContentsVisibilityForVisitor:
     all: "全て公開"
@@ -3090,6 +3091,7 @@ _moderationLogTypes:
   deleteGalleryPost: "ギャラリーの投稿を削除"
   deleteChatRoom: "ダイレクトメッセージのグループを削除"
   updateProxyAccountDescription: "プロキシアカウントの説明を更新"
+  rejectRemoteFollow: "スパムの可能性があるリモートフォローを拒否"
 
 _fileViewer:
   title: "ファイルの詳細"

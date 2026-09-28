@@ -755,6 +755,11 @@ export class MiMeta {
 		showTimelineForVisitor: boolean;
 		showActivitiesForVisitor: boolean;
 	};
+
+	@Column('boolean', {
+		default: false,
+	})
+	public enableRemoteSpamFollowingDetection: boolean;
 }
 
 export type SoftwareSuspension = {
