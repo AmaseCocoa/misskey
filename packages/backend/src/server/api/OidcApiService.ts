@@ -112,7 +112,14 @@ export class OidcApiService {
 		fastify.post<{ Body: Credential }>('/status', async request => {
 			const user = await this.findAccount(request.body?.i);
 			const profile = user && await this.userProfilesRepository.findOneBy({ userId: user.id });
-			return { enabled: this.config.oidc != null, linked: profile?.oidcIdentity != null };
+			return { enabled: this.config.oidc != null, linked: profile?.oidcIdentity != null, skipTwoFactor: profile?.oidcSkipTwoFactor ?? false };
+		});
+
+		fastify.post<{ Body: Credential & entities.OidcAccountAuthorization & { skipTwoFactor: boolean } }>('/settings', async request => {
+			if (typeof request.body?.skipTwoFactor !== 'boolean') throw new FastifyReplyError(400, 'Invalid OpenID Connect settings.');
+			const profile = await this.authorizeAccount(request.body);
+			await this.userProfilesRepository.update({ userId: profile.userId }, { oidcSkipTwoFactor: request.body.skipTwoFactor });
+			return { skipTwoFactor: request.body.skipTwoFactor };
 		});
 
 		fastify.post<{ Body: StartBody }>('/start', async request => await this.start(request));
@@ -297,7 +304,7 @@ export class OidcApiService {
 		}
 
 		const { user, profile } = await this.linkedAccount(identity);
-		if (profile.twoFactorEnabled) {
+		if (profile.twoFactorEnabled && !profile.oidcSkipTwoFactor) {
 			await this.redis.set('oidc:totp:' + key, JSON.stringify({ userId: user.id, identity } satisfies PendingTotp), 'EX', totpLifetime);
 			return { result: 'totp' };
 		}

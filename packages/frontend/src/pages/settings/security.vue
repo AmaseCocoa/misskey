@@ -29,6 +29,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #label><SearchLabel>{{ i18n.ts._oidc.title }}</SearchLabel></template>
 				<div class="_gaps_s">
 					<p>{{ oidcStatus.linked ? i18n.ts._oidc.linked : i18n.ts._oidc.linkDescription }}</p>
+					<MkSwitch v-if="oidcStatus.linked && $i.twoFactorEnabled" :modelValue="oidcStatus.skipTwoFactor" @update:modelValue="updateOidcTwoFactor">
+						{{ i18n.ts._oidc.skipTwoFactor }}
+						<template #caption>{{ i18n.ts._oidc.skipTwoFactorDescription }}</template>
+					</MkSwitch>
 					<MkButton v-if="oidcStatus.linked" danger @click="unlinkOidc">{{ i18n.ts._oidc.unlink }}</MkButton>
 					<MkButton v-else primary @click="linkOidc">{{ oidcAuthorization ? i18n.ts.cancel : i18n.ts._oidc.link }}</MkButton>
 				</div>
@@ -73,6 +77,7 @@ import X2fa from './2fa.vue';
 import FormSection from '@/components/form/section.vue';
 import FormSlot from '@/components/form/slot.vue';
 import MkButton from '@/components/MkButton.vue';
+import MkSwitch from '@/components/MkSwitch.vue';
 import MkPagination from '@/components/MkPagination.vue';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/utility/misskey-api.js';
@@ -89,7 +94,7 @@ const paginator = markRaw(new Paginator('i/signin-history', {
 	limit: 5,
 }));
 
-const oidcStatus = shallowRef<{ enabled: boolean; linked: boolean }>();
+const oidcStatus = shallowRef<{ enabled: boolean; linked: boolean; skipTwoFactor: boolean }>();
 const oidcAuthorization = shallowRef<AbortController>();
 
 onMounted(async () => {
@@ -104,6 +109,17 @@ function showOidcError(error: unknown) {
 	});
 }
 
+async function updateOidcTwoFactor(skipTwoFactor: boolean) {
+	const auth = await os.authenticateDialog();
+	if (auth.canceled) return;
+	try {
+		await misskeyApi('oidc/settings', { ...auth.result, skipTwoFactor });
+		if (oidcStatus.value) oidcStatus.value.skipTwoFactor = skipTwoFactor;
+	} catch (error) {
+		showOidcError(error);
+	}
+}
+
 async function linkOidc() {
 	if (oidcAuthorization.value != null) {
 		oidcAuthorization.value.abort();
@@ -116,7 +132,7 @@ async function linkOidc() {
 	oidcAuthorization.value = authorization;
 	try {
 		const { response } = await authorizeWithOidc({ mode: 'link', ...auth.result }, authorization.signal);
-		if (response.result === 'linked') oidcStatus.value = { enabled: true, linked: true };
+		if (response.result === 'linked' && oidcStatus.value) oidcStatus.value.linked = true;
 	} catch (error) {
 		if (!authorization.signal.aborted) showOidcError(error);
 	} finally {

@@ -103,7 +103,11 @@ export type Endpoints = Overwrite<
 		},
 		'oidc/status': {
 			req: EmptyRequest;
-			res: { enabled: boolean; linked: boolean };
+			res: { enabled: boolean; linked: boolean; skipTwoFactor: boolean };
+		},
+		'oidc/settings': {
+			req: OidcAccountAuthorization & { skipTwoFactor: boolean };
+			res: { skipTwoFactor: boolean };
 		},
 		'oidc/start': {
 			req: { mode: 'signin' } | ({ mode: 'link' } & OidcAccountAuthorization);

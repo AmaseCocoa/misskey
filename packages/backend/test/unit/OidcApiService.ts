@@ -64,7 +64,8 @@ describe('OpenID Connect account linking', () => {
 			return where.userId === profile.userId || where.oidcIdentity === profile.oidcIdentity ? profile : null;
 		});
 		profiles.update.mockImplementation(async (_, update) => {
-			profile.oidcIdentity = update.oidcIdentity as string | null;
+			if ('oidcIdentity' in update) profile.oidcIdentity = update.oidcIdentity as string | null;
+			if ('oidcSkipTwoFactor' in update) profile.oidcSkipTwoFactor = update.oidcSkipTwoFactor as boolean;
 			return { affected: 1, raw: [], generatedMaps: [] };
 		});
 
@@ -150,7 +151,7 @@ describe('OpenID Connect account linking', () => {
 		const link = await start('link');
 		expect((await post('finish', { ...link, i: accountToken })).json()).toEqual({ result: 'linked' });
 		expect(profile.oidcIdentity).toBe(identityHash);
-		expect((await post('status', { i: accountToken })).json()).toEqual({ enabled: true, linked: true });
+		expect((await post('status', { i: accountToken })).json()).toEqual({ enabled: true, linked: true, skipTwoFactor: false });
 
 		const login = await start('signin');
 		expect((await post('finish', login)).json()).toMatchObject({ result: 'signedIn', signin: { id: account.id } });
@@ -176,6 +177,22 @@ describe('OpenID Connect account linking', () => {
 		tokenSubject = 'other-subject';
 		expect((await post('finish', await start('signin'))).statusCode).toBe(403);
 		expect(signin.signin).not.toHaveBeenCalled();
+	});
+
+	it('allows skipping two-factor authentication for OpenID Connect sign-in when enabled', async () => {
+		profile.oidcIdentity = identityHash;
+		profile.twoFactorEnabled = true;
+		profile.oidcSkipTwoFactor = true;
+		const response = await post('finish', await start('signin'));
+		expect(response.json()).toMatchObject({ result: 'signedIn', signin: { id: account.id } });
+		expect(userAuth.twoFactorAuthenticate).not.toHaveBeenCalled();
+	});
+
+	it('updates the two-factor preference after account reauthentication', async () => {
+		profile.twoFactorEnabled = true;
+		expect((await post('settings', { i: accountToken, password, token: '123456', skipTwoFactor: true })).json()).toEqual({ skipTwoFactor: true });
+		expect(profile.oidcSkipTwoFactor).toBe(true);
+		expect((await post('settings', { i: accountToken, password: 'wrong', skipTwoFactor: false })).statusCode).toBe(403);
 	});
 
 	it('rejects a pending link after the account password changes', async () => {

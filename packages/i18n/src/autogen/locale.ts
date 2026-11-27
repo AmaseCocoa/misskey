@@ -5327,6 +5327,14 @@ export interface Locale extends ILocale {
          */
         "linkDescription": string;
         /**
+         * OpenID Connectログイン時に二要素認証を省略する
+         */
+        "skipTwoFactor": string;
+        /**
+         * 有効にすると、OpenID Connectでログインする際に二要素認証コードを求めません。
+         */
+        "skipTwoFactorDescription": string;
+        /**
          * OpenID Connectでの認証に失敗しました。連携状況や認証情報を確認し、もう一度お試しください。
          */
         "failed": string;
@@ -8872,7 +8880,7 @@ export interface Locale extends ILocale {
          */
         "original": string;
         /**
-         * {name}はオリジナルのMisskeyを改変したバージョンを使用しています。
+         * {name}はオリジナルのPherkadを改変したバージョンを使用しています。
          */
         "thisIsModifiedVersion": ParameterizedString<"name">;
         /**
@@ -8892,7 +8900,7 @@ export interface Locale extends ILocale {
          */
         "patrons": string;
         /**
-         * プロジェクトメンバー
+         * Misskeyのプロジェクトメンバー
          */
         "projectMembers": string;
     };

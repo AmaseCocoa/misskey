@@ -1329,6 +1329,8 @@ _oidc:
   unlinkConfirm: "OpenID Connectアカウントとの連携を解除しますか？"
   linked: "OpenID Connectアカウントを連携済みです。"
   linkDescription: "外部のアカウントを連携すると、次回からOpenID Connectでログインできます。"
+  skipTwoFactor: "OpenID Connectログイン時に二要素認証を省略する"
+  skipTwoFactorDescription: "有効にすると、OpenID Connectでログインする際に二要素認証コードを求めません。"
   failed: "OpenID Connectでの認証に失敗しました。連携状況や認証情報を確認し、もう一度お試しください。"
   popupBlocked: "認証ウィンドウを開けませんでした。このサイトのポップアップを許可して、もう一度お試しください。"
 unknownWebAuthnKey: "登録されていないパスキーです。"

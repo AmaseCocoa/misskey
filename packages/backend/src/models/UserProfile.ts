@@ -153,6 +153,9 @@ export class MiUserProfile {
 	@Column('varchar', { length: 43, nullable: true })
 	public oidcIdentity: string | null;
 
+	@Column('boolean', { default: false })
+	public oidcSkipTwoFactor: boolean;
+
 	@Column('varchar', {
 		length: 8192, default: '',
 	})
