@@ -1,3 +1,8 @@
+## 2026.11.1-y4
+
+### Frontend
+- Fix: switchが動作するように
+
 ## 2026.11.1-y3
 
 ### Frontend
