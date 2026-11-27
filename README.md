@@ -1,3 +1,8 @@
+# Pherkad
+欲しい機能を詰め込んだMisskey-forkです
+
+---
+
 <div align="center">
 <a href="https://misskey-hub.net">
 	<img src="./assets/title_float.svg" alt="Misskey logo" style="border-radius:50%" width="300"/>
