@@ -5343,16 +5343,6 @@ export interface Locale extends ILocale {
          */
         "popupBlocked": string;
     };
-
-		"_pherkad": {
-			"timeline": {
-				/*
-					タイムラインの設定
-				*/
-				title: string;
-			};
-		};
-
     /**
      * 登録されていないパスキーです。
      */
@@ -13540,5 +13530,29 @@ export interface Locale extends ILocale {
          * MFM
          */
         "mfm": string;
+    };
+    "_pherkad": {
+        "timeline": {
+            /**
+             * タイムラインの設定
+             */
+            "title": string;
+            /**
+             * この設定が有効な場合、ローカルタイムラインとソーシャルタイムラインがヘッダーから非表示になります。この設定はウィジェットなどには影響しません。
+             */
+            "hideLTLCaption": string;
+            /**
+             * この設定が有効な場合、グローバルタイムラインがヘッダーから非表示になります。この設定はウィジェットなどには影響しません。
+             */
+            "hideGTLCaption": string;
+            /**
+             * ローカルタイムラインとソーシャルタイムラインをヘッダーから非表示にする
+             */
+            "hideLTL": string;
+            /**
+             * グローバルタイムラインをヘッダーから非表示にする
+             */
+            "hideGTL": string;
+        };
     };
 }
