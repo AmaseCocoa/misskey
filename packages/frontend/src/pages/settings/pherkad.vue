@@ -10,7 +10,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<template #label><SearchLabel>{{ i18n.ts._oidc.title }}</SearchLabel></template>
 			<div v-if="oidcStatus?.enabled || oidcStatus?.linked" class="_gaps_s">
 				<p>{{ oidcStatus.linked ? i18n.ts._oidc.linked : i18n.ts._oidc.linkDescription }}</p>
-				<MkSwitch v-if="oidcStatus.linked && $i.twoFactorEnabled" :modelValue="oidcStatus.skipTwoFactor" @update:modelValue="updateOidcTwoFactor">
+				<MkSwitch v-if="oidcStatus.linked && account.twoFactorEnabled" :modelValue="oidcStatus.skipTwoFactor" @update:modelValue="updateOidcTwoFactor">
 					{{ i18n.ts._oidc.skipTwoFactor }}
 					<template #caption>{{ i18n.ts._oidc.skipTwoFactorDescription }}</template>
 				</MkSwitch>
@@ -38,7 +38,7 @@ import { i18n } from '@/i18n.js';
 import { ensureSignin } from '@/i.js';
 import { definePage } from '@/page.js';
 
-const $i = ensureSignin();
+const account = ensureSignin();
 const oidcStatus = ref<{ enabled: boolean; linked: boolean; skipTwoFactor: boolean } | null>();
 const oidcAuthorization = shallowRef<AbortController>();
 
