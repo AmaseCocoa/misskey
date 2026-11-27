@@ -1,3 +1,8 @@
+## 2026.11.1-y1
+
+### General
+- Feat: OpenID Connectのサポート
+
 ## 2026.11.1
 
 ### General
@@ -93,7 +98,7 @@
 
 ### Client
 - Feat: デッキにクリップのカラムを追加できるように
-- Enhance: アイコン画像・バナー画像を外せるように	
+- Enhance: アイコン画像・バナー画像を外せるように
 
 ### Server
 - Enhance: ノート中のURLを正規化して禁止ワードを判定するように
@@ -108,9 +113,9 @@
 - Enhance: 翻訳の更新
 
 ### Client
-- Fix: 初期設定ダイアログの表示が一部乱れる問題を修正  
+- Fix: 初期設定ダイアログの表示が一部乱れる問題を修正
   (Cherry-picked from https://github.com/Zel9278/misskey-juice/commit/25d65914f629936f33d7e41a1369eda1f6c4cd1d, https://github.com/Zel9278/misskey-juice/commit/6ff1ce752c4494f4889ec23ca5419645e3db98e0)
-- Fix: ユーザーの「概要」ページで引っ張って更新しても何も更新されない問題を修正  
+- Fix: ユーザーの「概要」ページで引っ張って更新しても何も更新されない問題を修正
   (Cherry-picked from https://github.com/shiroha-a/misskey-ts/commit/c946a42dbb71234dd9d9bbc14474853f0709431c)
 
 ### Server
@@ -189,7 +194,7 @@
 
 ### General
 - Feat: コントロールパネルから二要素認証を解除できるように
-- Feat: 条件に一致したURLプレビューのサムネイルを隠すことができるように  
+- Feat: 条件に一致したURLプレビューのサムネイルを隠すことができるように
   (Based on https://github.com/MisskeyIO/misskey/pull/214)
 - Enhance: 依存関係の更新
 
@@ -256,7 +261,7 @@
 - Fix: URLプレビューのプレイヤーをウィンドウで開いたとき、プレイヤーが読み込まれるまでの間 `Invalid URL` と表示される問題を修正
 - Fix: 一部の実績が正しく表示されない問題を修正
 - Fix: アクセストークン発行時のダイアログのタイトルが「確認コード」となっているのを修正
-- Fix: 一部のUI要素の色が正しく表示されない問題を修正  
+- Fix: 一部のUI要素の色が正しく表示されない問題を修正
   (Cherry-picked from https://github.com/MisskeyIO/misskey/pull/1243)
 - Fix: 「D」キーでダークモードを切り替える際にsyncDeviceDarkModeのチェックがバイパスされる問題を修正
 - Fix: パスキー登録完了時の認証ダイアログの入力値が使われていない問題を修正
@@ -328,7 +333,7 @@
 - Fix: `.devcontainer/compose.yml`のvolumeのマウントパスを修正
 
 ### Client
-- Enhance: ノートの詳細表示での公開範囲の表示を改善  
+- Enhance: ノートの詳細表示での公開範囲の表示を改善
   (Cherry-picked from https://github.com/kokonect-link/cherrypick/commit/ecc75563f4e428b66adccc379bf317b5b21ed8e6)
 - Fix: ロール設定画面でロールをアサイン/アサイン解除した際、リロードしなくても画面に反映されるよう修正
 
@@ -353,7 +358,7 @@
 
 ### Server
 - Enhance: メモリ使用量を削減
-- Enhance: 起動の高速化  
+- Enhance: 起動の高速化
   (Cherry-picked from https://github.com/MisskeyIO/misskey/pull/1410)
 - Enhance: バックエンドの開発モード時の安定性向上
 - Enhance: バックエンドビルド・テスト時に使用する依存関係の整理（swc/esbuild→Rolldown, Jest→Vitest）
@@ -365,13 +370,13 @@
 - Fix: ID生成アルゴリズムにULIDを使用している場合にMisskeyが正しく動作しない問題を修正
 - Fix: リレー経由で届いたノートがリノートとして表示される問題を修正
 - Fix: robots.txtの内容を調整
-- Fix: 特定のユーザーに管理者権限を持つロールが複数ついている際に、取得できるユーザーIDが重複する問題を修正  
+- Fix: 特定のユーザーに管理者権限を持つロールが複数ついている際に、取得できるユーザーIDが重複する問題を修正
   (Cherry-picked from https://github.com/lqvp/misskey-tempura/commit/17ed4108cec4b6bd2fd989db5a9091db91fa37a7)
-- Fix: ブロックしたサーバーからのInboxジョブが蓄積し続ける問題を修正  
+- Fix: ブロックしたサーバーからのInboxジョブが蓄積し続ける問題を修正
   (Cherry-picked from https://github.com/lqvp/misskey-tempura/commit/3f0f4bfe923f2b3a7837017b54841598f421c6ef)
 - Fix: support activity with `actor` as an id string or embedded object in inbox processor and ActivityPub inbox service
 - Fix: コンフィグファイルに `meilisearch` の設定がある状態でほかの検索プロバイダを利用すると、UI上からリモートのノートの検索ができない問題を修正
-- Fix: ノートに関する通知で公開範囲が考慮されていない問題を修正  
+- Fix: ノートに関する通知で公開範囲が考慮されていない問題を修正
   (Cherry-picked from https://github.com/lqvp/misskey-tempura/commit/cbce96c520a138b8bcd16890ff6f2952830fa166 originally presented in https://github.com/yojo-art/cherrypick/pull/743)
 
 ## 2026.3.2
