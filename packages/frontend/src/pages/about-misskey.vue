@@ -54,7 +54,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</FormLink>
 					</div>
 				</FormSection>
-				<FormSection v-if="instance.repositoryUrl !== 'https://github.com/AmaseCocoa/misskey'">
+				<FormSection v-if="instance.repositoryUrl !== 'https://github.com/AmaseCocoa/misskey' && instance.repositoryUrl !== 'https://github.com/misskey-dev/misskey'">
 					<div class="_gaps_s">
 						<MkInfo>
 							{{ i18n.tsx._aboutMisskey.thisIsModifiedVersion({ name: instance.name ?? host }) }}
