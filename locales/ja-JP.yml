@@ -2318,12 +2318,12 @@ _aboutMisskey:
   allContributors: "全てのコントリビューター"
   source: "ソースコード"
   original: "オリジナル"
-  thisIsModifiedVersion: "{name}はオリジナルのMisskeyを改変したバージョンを使用しています。"
+  thisIsModifiedVersion: "{name}はオリジナルのPherkadを改変したバージョンを使用しています。"
   translation: "Misskeyを翻訳"
   donate: "Misskeyに寄付"
   morePatrons: "他にも多くの方が支援してくれています。ありがとうございます🥰"
   patrons: "支援者"
-  projectMembers: "プロジェクトメンバー"
+  projectMembers: "Misskeyのプロジェクトメンバー"
 
 _displayOfSensitiveMedia:
   respect: "センシティブ設定されたメディアを隠す"

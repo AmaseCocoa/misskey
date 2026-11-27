@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<div class="_gaps_s">
 						<FormLink to="https://github.com/misskey-dev/misskey" external>
 							<template #icon><i class="ti ti-code"></i></template>
-							{{ i18n.ts._aboutMisskey.source }} ({{ i18n.ts._aboutMisskey.original }})
+							{{ i18n.ts._aboutMisskey.source }} (Misskey)
 							<template #suffix>GitHub</template>
 						</FormLink>
 						<FormLink to="https://crowdin.com/project/misskey" external>
@@ -45,7 +45,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</FormLink>
 					</div>
 				</FormSection>
-				<FormSection v-if="instance.repositoryUrl !== 'https://github.com/misskey-dev/misskey'">
+				<FormSection>
+					<div class="_gaps_s">
+						<FormLink to="https://github.com/AmaseCocoa/misskey" external>
+							<template #icon><i class="ti ti-code"></i></template>
+							{{ i18n.ts._aboutMisskey.source }} (Pherkad)
+							<template #suffix>GitHub</template>
+						</FormLink>
+					</div>
+				</FormSection>
+				<FormSection v-if="instance.repositoryUrl !== 'https://github.com/AmaseCocoa/misskey'">
 					<div class="_gaps_s">
 						<MkInfo>
 							{{ i18n.tsx._aboutMisskey.thisIsModifiedVersion({ name: instance.name ?? host }) }}
