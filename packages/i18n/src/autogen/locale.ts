@@ -6205,6 +6205,10 @@ export interface Locale extends ILocale {
          */
         "serviceConnection": string;
         /**
+         * Pherkad
+         */
+        "pherkad": string;
+        /**
          * 外部のアプリ・サービスと連携するためのアクセストークンやWebhookの管理と設定が行えます。
          */
         "serviceConnectionBanner": string;

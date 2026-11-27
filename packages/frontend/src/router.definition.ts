@@ -113,6 +113,10 @@ export const ROUTE_DEF = [{
 		name: 'security',
 		component: page(() => import('@/pages/settings/security.vue')),
 	}, {
+		path: '/pherkad',
+		name: 'pherkad',
+		component: page(() => import('@/pages/settings/pherkad.vue')),
+	}, {
 		path: '/preferences',
 		name: 'preferences',
 		component: page(() => import('@/pages/settings/preferences.vue')),

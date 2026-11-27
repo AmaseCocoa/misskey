@@ -1560,6 +1560,7 @@ _settings:
   api: "API"
   webhook: "Webhook"
   serviceConnection: "サービス連携"
+  pherkad: "Pherkad"
   serviceConnectionBanner: "外部のアプリ・サービスと連携するためのアクセストークンやWebhookの管理と設定が行えます。"
   accountData: "アカウントのデータ"
   accountDataBanner: "アカウントデータのアーカイブをエクスポート/インポートして管理できます。"

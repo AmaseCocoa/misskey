@@ -108,6 +108,11 @@ const menuDef = computed<SuperMenuDef[]>(() => [{
 		text: i18n.ts.security,
 		to: '/settings/security',
 		active: currentPage.value?.route.name === 'security',
+	}, {
+		icon: 'ti ti-north-star',
+		text: i18n.ts._settings.pherkad,
+		to: '/settings/pherkad',
+		active: currentPage.value?.route.name === 'pherkad',
 	}],
 }, {
 	items: [{
