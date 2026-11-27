@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { prefer } from './preferences';
 import { $i } from '@/i.js';
 import { instance } from '@/instance.js';
 
@@ -13,9 +14,11 @@ export const basicTimelineTypes = [
 	'global',
 ] as const;
 
-export type BasicTimelineType = typeof basicTimelineTypes[number];
+export type BasicTimelineType = (typeof basicTimelineTypes)[number];
 
-export function isBasicTimeline(timeline: string): timeline is BasicTimelineType {
+export function isBasicTimeline(
+	timeline: string,
+): timeline is BasicTimelineType {
 	return basicTimelineTypes.includes(timeline as BasicTimelineType);
 }
 
@@ -32,16 +35,28 @@ export function basicTimelineIconClass(timeline: BasicTimelineType): string {
 	}
 }
 
-export function isAvailableBasicTimeline(timeline: BasicTimelineType | undefined | null): boolean {
+export function isAvailableBasicTimeline(
+	timeline: BasicTimelineType | undefined | null,
+): boolean {
+	const showLTL = !prefer.s['pherkad.hideTimeline.local'];
+	const showGTL = !prefer.s['pherkad.hideTimeline.global'];
 	switch (timeline) {
 		case 'home':
 			return $i != null;
 		case 'local':
-			return ($i == null && instance.policies.ltlAvailable) || ($i != null && $i.policies.ltlAvailable);
+			return (
+				(($i == null && instance.policies.ltlAvailable) ||
+					($i != null && $i.policies.ltlAvailable)) &&
+				showLTL
+			);
 		case 'social':
-			return $i != null && $i.policies.ltlAvailable;
+			return $i != null && $i.policies.ltlAvailable && showLTL;
 		case 'global':
-			return ($i == null && instance.policies.gtlAvailable) || ($i != null && $i.policies.gtlAvailable);
+			return (
+				(($i == null && instance.policies.gtlAvailable) ||
+					($i != null && $i.policies.gtlAvailable)) &&
+				showGTL
+			);
 		default:
 			return false;
 	}
@@ -51,6 +66,8 @@ export function availableBasicTimelines(): BasicTimelineType[] {
 	return basicTimelineTypes.filter(isAvailableBasicTimeline);
 }
 
-export function hasWithReplies(timeline: BasicTimelineType | undefined | null): boolean {
+export function hasWithReplies(
+	timeline: BasicTimelineType | undefined | null,
+): boolean {
 	return timeline === 'local' || timeline === 'social';
 }

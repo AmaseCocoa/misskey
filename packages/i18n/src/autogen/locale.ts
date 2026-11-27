@@ -5343,6 +5343,16 @@ export interface Locale extends ILocale {
          */
         "popupBlocked": string;
     };
+
+		"_pherkad": {
+			"timeline": {
+				/*
+					タイムラインの設定
+				*/
+				title: string;
+			};
+		};
+
     /**
      * 登録されていないパスキーです。
      */

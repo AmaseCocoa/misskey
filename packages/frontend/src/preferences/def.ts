@@ -548,4 +548,11 @@ export const PREF_DEF = definePreferences({
 	'experimental.enableWebTranslatorApi': {
 		default: false,
 	},
+
+	'pherkad.hideTimeline.global': {
+		default: false,
+	},
+	'pherkad.hideTimeline.local': {
+		default: false,
+	},
 });
