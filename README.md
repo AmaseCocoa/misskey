@@ -1,5 +1,5 @@
 # Pherkad
-欲しい機能を詰め込んだMisskey-forkです
+欲しい機能を詰め込んだMisskey-forkです。個人用
 
 ---
 
@@ -60,7 +60,7 @@ Thanks to [Docker](https://hub.docker.com/) for providing the container platform
 ---
 
 <div align="center">
-	
+
 Support us with a ⭐ !
 
 [![Star History Chart](https://api.star-history.com/svg?repos=misskey-dev/misskey&type=Date)](https://star-history.com/#misskey-dev/misskey&Date)
