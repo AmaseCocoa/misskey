@@ -8,23 +8,21 @@ SPDX-License-Identifier: AGPL-3.0-only
 	path="/settings/pherkad" :label="i18n.ts._settings.pherkad" :keywords="['pherkad']"
 	icon="ti ti-north-star"
 >
-	<SearchMarker :keywords="['timeline']">
+	<SearchMarker :keywords="['timeline', 'local', 'social', 'global']">
 		<FormSection first>
 			<template #label>
 				<SearchLabel>{{ i18n.ts._pherkad.timeline.title }}</SearchLabel>
 			</template>
-			<MkSwitch
-				:modelValue="hideLTL"
-			>
-				{{ i18n.ts._pherkad.timeline.hideLTL }}
-				<template #caption>{{ i18n.ts._pherkad.timeline.hideCaption }}</template>
-			</MkSwitch>
-			<MkSwitch
-				:modelValue="hideGTL"
-			>
-				{{ i18n.ts._pherkad.timeline.hideGTL }}
-				<template #caption>{{ i18n.ts._pherkad.timeline.hideCaption }}</template>
-			</MkSwitch>
+			<div class="_gaps_s">
+				<MkSwitch v-model="hideLTL">
+					{{ i18n.ts._pherkad.timeline.hideLTL }}
+					<template #caption>{{ i18n.ts._pherkad.timeline.hideLTLCaption }}</template>
+				</MkSwitch>
+				<MkSwitch v-model="hideGTL">
+					{{ i18n.ts._pherkad.timeline.hideGTL }}
+					<template #caption>{{ i18n.ts._pherkad.timeline.hideGTLCaption }}</template>
+				</MkSwitch>
+			</div>
 		</FormSection>
 	</SearchMarker>
 	<SearchMarker :keywords="['openid', 'oidc']">
@@ -73,7 +71,7 @@ const oidcStatus = ref<{ enabled: boolean; linked: boolean; skipTwoFactor: boole
 const oidcAuthorization = shallowRef<AbortController>();
 
 const hideLTL = prefer.model('pherkad.hideTimeline.local');
-const hideGTL	= prefer.model('pherkad.hideTimeline.global');
+const hideGTL = prefer.model('pherkad.hideTimeline.global');
 
 onMounted(async () => {
 	oidcStatus.value = await misskeyApi('oidc/status').catch(() => null);
