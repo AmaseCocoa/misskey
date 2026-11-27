@@ -1,3 +1,8 @@
+## 2026.11.1-y2
+
+### General
+- Fix: OpenID Connect使用時に二要素認証を省略できる用に
+
 ## 2026.11.1-y1
 
 ### General
